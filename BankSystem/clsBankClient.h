@@ -18,6 +18,7 @@ private:
 	string _AccountNumber;
 	string _PinCode;
 	float _AccountBalance;
+    bool _MarkedForDelete = false;
 
     static clsBankClient _ConvertLinetoClientObject(string Line, string Seperator = "#//#")
     {
@@ -87,8 +88,12 @@ private:
 
             for (clsBankClient C : vClients)
             {
-                DataLine = _ConverClientObjectToLine(C);
-                MyFile << DataLine << endl;
+                if (C.MarkedForDeleted() == false) {
+                      DataLine = _ConverClientObjectToLine(C);
+                      MyFile << DataLine << endl;
+                }
+
+               
 
             }
             MyFile.close();
@@ -147,6 +152,12 @@ public:
     {
         return (_Mode == enMode::EmptyMode);
     }
+
+    bool MarkedForDeleted()
+    {
+        return _MarkedForDelete;
+    }
+
 
     string AccountNumber()
     {
@@ -276,6 +287,30 @@ public:
         clsBankClient Clint1 = clsBankClient::Find(AccountNumber);
         return (!Clint1.IsEmpty());
     }
+
+    bool Delete()
+    {
+        vector <clsBankClient> _vClients;
+        _vClients = _LoadClientsDataFromFile();
+
+        for (clsBankClient& C : _vClients)
+        {
+            if (C.AccountNumber() == _AccountNumber)
+            {
+                C._MarkedForDelete = true;
+                break;
+            }
+
+        }
+
+        _SaveCleintsDataToFile(_vClients);
+
+        *this = _GetEmptyClientObject();
+
+        return true;
+
+    }
+
 
     static clsBankClient GetAddNewClientObject(string AccountNumber)
     {
