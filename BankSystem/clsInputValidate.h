@@ -69,16 +69,7 @@ public:
 		return Number;
 	}
 
-	static int ReadIntNumber(string ErrorMessage = "Invalid Number, Enter again\n")
-	{
-		int Number;
-		while (!(cin >> Number)) {
-			cin.clear();
-			cin.ignore(numeric_limits<streamsize>::max(), '\n');
-			cout << ErrorMessage;
-		}
-		return Number;
-	}
+
 
 	static short ReadShortNumberBetween(short From, short To, string ErrorMessage = "Number is not within range, Enter again:\n")
 	{
