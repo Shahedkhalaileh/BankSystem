@@ -6,25 +6,32 @@
 #include <iomanip>
 #include "clsMainScreen.h"
 #include "Global.h"
+#include "GlobalData.h"
 
 class clsLoginScreen :protected clsScreen
 {
 
 private:
 
-    static  void _Login()
+    static  bool _Login()
     {
         bool LoginFaild = false;
+        short num = 3;
 
         string Username, Password;
         do
         {
-
             if (LoginFaild)
             {
                 cout << "\nInvlaid Username/Password!\n\n";
+                num--;
+                cout << "You have " << num << " Trials to login \n"; 
+            
             }
-
+            if (num == 0) {
+                cout << "\n You are locked after 3 faild trails";
+                return false;
+            }
             cout << "Enter Username? ";
             cin >> Username;
 
@@ -44,11 +51,11 @@ private:
 public:
 
 
-    static void ShowLoginScreen()
+    static bool ShowLoginScreen()
     {
         system("cls");
         _DrawScreenHeader("\t  Login Screen");
-        _Login();
+        return _Login();
 
     }
 
