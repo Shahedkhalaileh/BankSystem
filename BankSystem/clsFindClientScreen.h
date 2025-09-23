@@ -4,6 +4,8 @@
 #include "clsPerson.h"
 #include "clsBankClient.h"
 #include "clsInputValidate.h"
+#include "Global.h"
+
 
 class clsFindClientScreen :protected clsScreen
 {
@@ -29,6 +31,11 @@ public:
 
     static void ShowFindClientScreen()
     {
+        if (!CheckAccessRights(clsUser::enPermissions::pFindClient))
+        {
+            return;// this will exit the function and it will not continue
+        }
+
 
         _DrawScreenHeader("\tFind Client Screen");
 
